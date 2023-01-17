@@ -1,0 +1,10 @@
+{
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // Theme
+  "workbench.colorTheme": "Bearded Theme Oceanic Reversed",
+  "workbench.preferredDarkColorTheme": "Bearded Theme Oceanic Reversed",
+  "workbench.preferredLightColorTheme": "Bearded Theme Vivid Light",
+  // Fonts
+  "editor.fontFamily": "'DM Mono', Consolas, 'Courier New', monospace",
+}
