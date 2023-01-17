@@ -1,4 +1,6 @@
-import './globals.css'
+import React from "react"
+import DashboardLayout from "../../ui/layouts/DashboardLayout"
+import "./globals.css"
 
 export default function RootLayout({
   children,
@@ -12,7 +14,9 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body>{children}</body>
+      <body data-theme="light">
+        <DashboardLayout>{children}</DashboardLayout>
+      </body>
     </html>
   )
 }
