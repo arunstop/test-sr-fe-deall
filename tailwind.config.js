@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         "sofia-sans": ["Sofia Sans"],
       },
+      gap: {
+        i: "inherit",
+      },
     },
   },
   plugins: [
