@@ -8,6 +8,9 @@
   "rules": {
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "warn",
-    "react/display-name": ["off", { "ignoreTranspilerName": false }]
+    "react/display-name": ["off", { "ignoreTranspilerName": false }],
+    // "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "warn"
+
   }
 }
