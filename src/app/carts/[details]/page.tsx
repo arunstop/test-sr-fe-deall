@@ -141,10 +141,26 @@ function CartsDetailsPage({
             className="border-1 sm:border-2 border-primary-focus bg-primary/50 grid grid-cols-1 sm:grid-cols-2 p-2 sm:p-4 
           gap-2 sm:gap-4"
           >
-            <div>User: {`${user?.firstName} ${user?.lastName}`} </div>
-            <div># of items: {cart?.totalQuantity}</div>
-            <div>Added ON: {cart?.id}</div>
-            <div>Total Amout: {cart?.discountedTotal}</div>
+            <p>
+              <span>User:</span>{" "}
+              <span className="sm:text-lg font-bold">{`${user?.firstName} ${user?.lastName}`}</span>{" "}
+            </p>
+            <p>
+              <span># of items:</span>{" "}
+              <span className="sm:text-lg font-bold">
+                {cart?.totalQuantity}
+              </span>
+            </p>
+            <p>
+              <span>Added ON:</span>{" "}
+              <span className="sm:text-lg font-bold">22 January 2022</span>
+            </p>
+            <p>
+              <span>Total Amout:</span>{" "}
+              <span className="sm:text-lg font-bold">
+                {cart?.discountedTotal}
+              </span>
+            </p>
           </article>
         </section>
         <section className="flex flex-col gap-i">
