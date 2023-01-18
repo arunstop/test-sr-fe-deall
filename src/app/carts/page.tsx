@@ -1,12 +1,12 @@
 "use client"
 import { Icon } from "@iconify-icon/react"
+import { IPaging } from "core/models/product"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import Button from "ui/components/common/Button"
 import Pagination from "ui/components/common/Pagination"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
-import { IPaging } from "../products/page"
 
 export interface ICart {
   id: number

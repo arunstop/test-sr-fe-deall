@@ -1,62 +1,65 @@
 "use client"
+import { IProduct, IPaging, ISearch } from "core/models/product"
+import { repoProductGet } from "core/repos/product"
 import React, { useEffect, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
-
-export interface IProduct {
-  id: number
-  title: string
-  description: string
-  price: number
-  discountPercentage: number
-  rating: number
-  stock: number
-  brand: string
-  category: string
-  thumbnail: string
-  images: string[]
-}
-
-export interface IPaging {
-  limit: number
-  skip: number
-  total: number
-}
 
 export type IProductList = { products: IProduct[] } & IPaging
 
 function ProductsPage() {
   const [products, setProducts] = useState<IProductList>()
 
-  async function getProducts() {
-    console.log("getting yoy")
-    const products = await fetch(
-      "https://dummyjson.com/products?limit=10&skip=0",
-      {
-        method: "GET",
-      }
-    )
+  async function getProducts(props?: Partial<IPaging & ISearch>) {
+    // if
+    const products = await repoProductGet(props)
       .then(async (res) => (await res.json()) as IProductList)
       .catch((err) => console.error("Error when fetching data: ", err))
     if (!products) return
     setProducts(products)
   }
+
   useEffect(() => {
-    getProducts()
+    getProducts({
+      q: "",
+      limit: 10,
+      skip: 0,
+    })
     return () => {}
   }, [])
+
+  const handleSearch = React.useCallback(
+    (q: string) => {
+      getProducts({
+        q: q,
+        limit: products?.limit,
+        skip: products?.skip,
+        total: products?.total,
+      })
+    },
+    [products]
+  )
 
   return (
     <DashboardContentLayout title="Products">
       <div className="flex flex-col gap-i">
         <section className="self-end">
-          <TextInput
-            className=" valid:outline-primary transition-all duration-300"
-            placeholder="Search Product..."
-            type="search"
-            minLength={2}
-          />
+          <form
+            onSubmit={(ev) => {
+              ev.preventDefault()
+              handleSearch((ev.target as HTMLFormElement).q.value)
+              // handleSearch(ev.target as HTMLFormElement)
+            }}
+          >
+            <TextInput
+              className=" valid:outline-primary transition-all duration-300"
+              placeholder="Search Product..."
+              type="search"
+              name="q"
+              minLength={2}
+            />
+          </form>
         </section>
         <section className="flex flex-col gap-i">
           <article className="overflow-x-auto">

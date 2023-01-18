@@ -1,9 +1,7 @@
 "use client"
-import { IPaging, IProduct } from "@/app/products/page"
-import { Icon } from "@iconify-icon/react"
+import { IProduct } from "core/models/product"
 import { useEffect, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
-import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 import { ICart } from "../page"
 
@@ -173,6 +171,7 @@ function CartsDetailsPage({
                   <th>Brand</th>
                   <th>Price</th>
                   <th>Stock</th>
+                  <th>Category</th>
                 </tr>
               </thead>
               <tbody className="">
@@ -197,6 +196,9 @@ function CartsDetailsPage({
                     </td>
                     <td className="group-hover:text-primary group-hover:bg-primary/30">
                       {e.stock}
+                    </td>
+                     <td className="group-hover:text-primary group-hover:bg-primary/30 capitalize">
+                      {e.category.replaceAll("-"," ")}
                     </td>
                   </tr>
                 ))}
