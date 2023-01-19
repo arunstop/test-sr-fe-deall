@@ -5,7 +5,7 @@ const SelectInput = React.forwardRef<
   React.SelectHTMLAttributes<HTMLSelectElement>
 >(({ children, className = "", ...props }, ref) => {
   return (
-    <select ref={ref} className={`select select-bordered   ${className}`} {...props}>
+    <select ref={ref} className={`select max-sm:select-sm select-bordered   ${className}`} {...props}>
       {children}
     </select>
   )

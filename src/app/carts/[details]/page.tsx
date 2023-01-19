@@ -6,7 +6,9 @@ import { repoCartGetOne } from "core/repos/cart"
 import { repoProductGetOne } from "core/repos/product"
 import { repoUserGetOne } from "core/repos/user"
 import { useEffect, useState } from "react"
+import Alert from "ui/components/common/Alert"
 import Pagination from "ui/components/common/Pagination"
+import Table from "ui/components/common/Table"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
 function CartsDetailsPage({
@@ -26,11 +28,13 @@ function CartsDetailsPage({
       const cart = await repoCartGetOne(details)
         ?.then(async (res) => (await res.json()) as ICart)
         .catch((err) => {
-        console.error("Error when fetching data: ", err)
-        return null
-      })
+          console.error("Error when fetching data: ", err)
+          return null
+        })
       if (!cart) return
-      const userPromise = repoUserGetOne(cart.userId).then((user) => user.json())
+      const userPromise = repoUserGetOne(cart.userId).then((user) =>
+        user.json()
+      )
       const productsPromise = cart.products.map((product) =>
         repoProductGetOne(product.id).then((e) => e.json())
       )
@@ -65,9 +69,9 @@ function CartsDetailsPage({
       <div className="flex flex-col gap-i">
         <section className="flex flex-col gap-i">
           <header className="text-lg sm:text-xl font-bold">Details</header>
-          <article
+          <Alert
             className="border-1 sm:border-2 border-primary-focus bg-primary/50 grid grid-cols-1 sm:grid-cols-2 p-2 sm:p-4 
-          gap-2 sm:gap-4"
+          gap-2 sm:gap-4 font-normal"
           >
             <p>
               <span>User:</span>{" "}
@@ -89,55 +93,47 @@ function CartsDetailsPage({
                 {cart?.discountedTotal}
               </span>
             </p>
-          </article>
+          </Alert>
         </section>
         <section className="flex flex-col gap-i">
           <article className="overflow-x-auto">
-            <table className="table table-zebra w-full ">
-              <thead>
-                <tr>
-                  <th className="!z-0">#</th>
-                  <th>Name</th>
-                  <th>Brand</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                  <th>Category</th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {products?.map((e, idx) => (
-                  <tr
-                    key={e.id}
-                    className="group hover:z-20 hover:relative hover:-translate-y-2 cursor-pointer
+            <Table
+              headers={["#", "Name", "Brand", "Price", "Stock", "Category"]}
+            >
+              {products?.map((e, idx) => (
+                <tr
+                  key={e.id}
+                  className="group hover:z-20 hover:relative hover:-translate-y-2
                 [&>*]:transition-all transition-all ease-in-out duration-300
                 "
-                  >
-                    <th className="group-hover:text-primary group-hover:bg-primary/30">
-                      {idx + 1}
-                    </th>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.title}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.brand}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.price}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.stock}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30 capitalize">
-                      {e.category.replaceAll("-", " ")}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                >
+                  <th className="group-hover:text-primary group-hover:bg-primary/30">
+                    {idx + 1}
+                  </th>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.title}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.brand}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.price}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.stock}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30 capitalize">
+                    {e.category.replaceAll("-", " ")}
+                  </td>
+                </tr>
+              ))}
+            </Table>
           </article>
-          <footer className="self-end">
-            <Pagination total={100} skip={10} limit={10}></Pagination>
-          </footer>
+          {!!products?.length && (
+            <footer className="self-end">
+              <Pagination total={products.length} skip={0} limit={products.length}></Pagination>
+            </footer>
+          )}
         </section>
       </div>
     </DashboardContentLayout>

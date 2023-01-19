@@ -5,7 +5,9 @@ import { repoCategoryGetAll } from "core/repos/category"
 import { repoProductGetAll } from "core/repos/product"
 import { IPaging, ISearch } from "core/types/main"
 import React, { useEffect, useMemo, useState } from "react"
+import Alert from "ui/components/common/Alert"
 import Pagination from "ui/components/common/Pagination"
+import Table from "ui/components/common/Table"
 import TextInput from "ui/components/common/TextInput"
 import ProductFilterSection from "ui/components/product/ProductFilterSection"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
@@ -57,23 +59,14 @@ function ProductsPage() {
             </form>
           </section>
         </div>
-        <section className="flex flex-col gap-i">
-          <article className="overflow-x-auto">
-            <table className="table table-zebra w-full ">
-              <thead>
-                <tr>
-                  <th className="!z-0">#</th>
-                  <th>Name</th>
-                  <th>Brand</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                </tr>
-              </thead>
-              <tbody className="">
+        {products?.total ? (
+          <section className="flex flex-col gap-i">
+            <article className="overflow-x-auto">
+              <Table headers={["#", "Name", "Brand", "Price", "Stock"]}>
                 {products?.products.map((e, idx) => (
                   <tr
                     key={e.id}
-                    className="group hover:z-20 hover:relative hover:-translate-y-2 cursor-pointer
+                    className="group hover:z-20 hover:relative hover:-translate-y-2
                 [&>*]:transition-all transition-all ease-in-out duration-300
                 "
                   >
@@ -94,37 +87,39 @@ function ProductsPage() {
                     </td>
                   </tr>
                 ))}
-              </tbody>
-            </table>
-          </article>
-          {!!products && (
-            <footer className="self-end">
-              <Pagination
-                total={products.total}
-                skip={products.skip}
-                limit={products.limit}
-                onPrev={() =>
-                  getProducts({
-                    ...productsPagination,
-                    skip: products.skip - products.limit,
-                  })
-                }
-                onNext={() =>
-                  getProducts({
-                    ...productsPagination,
-                    skip: products.skip + products.limit,
-                  })
-                }
-              />
-            </footer>
-          )}
-        </section>
+              </Table>
+            </article>
+            {!!products?.products.length && (
+              <footer className="self-end">
+                <Pagination
+                  total={products.total}
+                  skip={products.skip}
+                  limit={products.limit}
+                  onPrev={() =>
+                    getProducts({
+                      ...productsPagination,
+                      skip: products.skip - products.limit,
+                    })
+                  }
+                  onNext={() =>
+                    getProducts({
+                      ...productsPagination,
+                      skip: products.skip + products.limit,
+                    })
+                  }
+                />
+              </footer>
+            )}
+          </section>
+        ) : (
+          <Alert className="text-center">No data</Alert>
+        )}
       </div>
     </DashboardContentLayout>
   )
 }
 
-const initPagination : Partial<IProductsPagination>={
+const initPagination: Partial<IProductsPagination> = {
   q: "",
   limit: 10,
   skip: 0,
@@ -187,7 +182,10 @@ function useProductsPageHook() {
     }: { category: string } & IProductsPagination) => {
       if (newCategory === category) return
       setCategory(newCategory)
-      getProducts(newCategory === "" ? initPagination : { ...filter }, newCategory)
+      getProducts(
+        newCategory === "" ? initPagination : { ...filter },
+        newCategory
+      )
     },
     [category]
   )
