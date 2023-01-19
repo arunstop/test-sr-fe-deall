@@ -1,3 +1,4 @@
+import { Icon } from "@iconify-icon/react"
 import React from "react"
 import Button from "./Button"
 
@@ -19,18 +20,20 @@ const Pagination = React.forwardRef<
     const last = total - skip <= limit
     return (
       <aside
-        className={`flex gap-2 sm:gap-4 items-center text-lg ${className}`}
+        className={`flex gap-2 sm:gap-4 items-center max-sm:text-sm  ${className}`}
         {...props}
       >
         {!first && (
-          <Button className="" onClick={onPrev}>
-            Prev
+          <Button className="!gap-1 sm:!gap-2" onClick={onPrev}>
+            <Icon icon="mdi:arrow-left" className="text-lg sm:text-xl "/>
+            <span>Prev</span>
           </Button>
         )}
-        {`Page ${Math.round(skip / limit+ 1) } / ${Math.round(total / limit)}`}
+        {`Page ${Math.round(skip / limit + 1)} / ${Math.round(total / limit)}`}
         {!last && (
-          <Button className="" onClick={onNext}>
-            Next
+          <Button className="!gap-1 sm:!gap-2" onClick={onNext}>
+            <span>Next</span>
+            <Icon icon="mdi:arrow-right" className="text-lg sm:text-xl "/>
           </Button>
         )}
       </aside>
