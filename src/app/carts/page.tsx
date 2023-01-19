@@ -1,6 +1,8 @@
 "use client"
 import { Icon } from "@iconify-icon/react"
-import { IPaging } from "core/models/product"
+import { ICart } from "core/models/cart"
+import { repoCartGetAll } from "core/repos/cart"
+import { IPaging, ISearch } from "core/types/main"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import Button from "ui/components/common/Button"
@@ -8,45 +10,24 @@ import Pagination from "ui/components/common/Pagination"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
-export interface ICart {
-  id: number
-  products: IProductInCart[]
-  total: number
-  discountedTotal: number
-  userId: number
-  totalProducts: number
-  totalQuantity: number
-}
-
-export interface IProductInCart {
-  id: number
-  title: string
-  price: number
-  quantity: number
-  total: number
-  discountPercentage: number
-  discountedPrice: number
-}
-
-export type ICardList = { carts: ICart[] } & IPaging
+export type ICardList = { carts: ICart[] } & IPaging & ISearch
 
 function CartsPage() {
   const [carts, setCarts] = useState<ICardList>()
 
-  async function getProducts() {
-    console.log("getting yoy")
-    const products = await fetch("https://dummyjson.com/carts", {
-      method: "GET",
-    })
+  async function getCarts(props?: Partial<IPaging>) {
+    const newCarts = await repoCartGetAll(props)
       .then(async (res) => (await res.json()) as ICardList)
       .catch((err) => console.error("Error when fetching data: ", err))
-    if (!products) return
-    setCarts(products)
+    if (!newCarts) return
+    setCarts(newCarts)
   }
+
   useEffect(() => {
-    getProducts()
+    getCarts({ limit: 10, skip: 0 })
     return () => {}
   }, [])
+
   return (
     <DashboardContentLayout title="Carts">
       <div className="flex flex-col gap-i">
@@ -116,9 +97,29 @@ function CartsPage() {
               </tbody>
             </table>
           </article>
-          <footer className="self-end">
-            <Pagination limit={100} skip={10} per={10}></Pagination>
-          </footer>
+          {!!carts && (
+            <footer className="self-end">
+              <Pagination
+                total={carts.total}
+                skip={carts.skip}
+                limit={carts.limit}
+                onPrev={() =>
+                  getCarts({
+                    limit: carts.limit,
+                    skip: carts.skip - carts.limit,
+                    total: carts.total,
+                  })
+                }
+                onNext={() =>
+                  getCarts({
+                    limit: carts.limit,
+                    skip: carts.skip + carts.limit,
+                    total: carts.total,
+                  })
+                }
+              ></Pagination>
+            </footer>
+          )}
         </section>
       </div>
     </DashboardContentLayout>
