@@ -10,6 +10,7 @@ export type IProductList = { products: IProduct[] } & IPaging
 
 function ProductsPage() {
   const [products, setProducts] = useState<IProductList>()
+  const [search, setSearch] = useState("")
 
   async function getProducts(props?: Partial<IPaging & ISearch>) {
     // if
@@ -101,9 +102,31 @@ function ProductsPage() {
               </tbody>
             </table>
           </article>
-          <footer className="self-end">
-            <Pagination limit={100} skip={10} per={10}></Pagination>
-          </footer>
+          {!!products && (
+            <footer className="self-end">
+              <Pagination
+                total={products.total}
+                skip={products.skip}
+                limit={products.limit}
+                onPrev={() =>
+                  getProducts({
+                    q: search,
+                    limit: products.limit,
+                    skip: products.skip - products.limit,
+                    total: products.total,
+                  })
+                }
+                onNext={() =>
+                  getProducts({
+                    q: search,
+                    limit: products.limit,
+                    skip: products.skip + products.limit,
+                    total: products.total,
+                  })
+                }
+              ></Pagination>
+            </footer>
+          )}
         </section>
       </div>
     </DashboardContentLayout>
