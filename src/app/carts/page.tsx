@@ -98,7 +98,7 @@ function CartsPage() {
               ))}
             </Table>
           </article>
-          {!!carts && (
+          {!!carts?.carts.length && (
             <footer className="self-end">
               <Pagination
                 total={carts.total}

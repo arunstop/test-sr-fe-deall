@@ -128,9 +128,11 @@ function CartsDetailsPage({
               ))}
             </Table>
           </article>
-          <footer className="self-end">
-            <Pagination total={100} skip={10} limit={10}></Pagination>
-          </footer>
+          {!!products?.length && (
+            <footer className="self-end">
+              <Pagination total={100} skip={10} limit={10}></Pagination>
+            </footer>
+          )}
         </section>
       </div>
     </DashboardContentLayout>

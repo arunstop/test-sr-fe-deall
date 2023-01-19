@@ -87,7 +87,7 @@ function ProductsPage() {
               ))}
             </Table>
           </article>
-          {!!products && (
+          {!!products?.products.length && (
             <footer className="self-end">
               <Pagination
                 total={products.total}
