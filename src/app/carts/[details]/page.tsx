@@ -25,7 +25,10 @@ function CartsDetailsPage({
     try {
       const cart = await repoCartGetOne(details)
         ?.then(async (res) => (await res.json()) as ICart)
-        .catch((err) => console.error("Error when fetching data: ", err))
+        .catch((err) => {
+        console.error("Error when fetching data: ", err)
+        return null
+      })
       if (!cart) return
       const userPromise = repoUserGetOne(cart.userId).then((user) => user.json())
       const productsPromise = cart.products.map((product) =>
