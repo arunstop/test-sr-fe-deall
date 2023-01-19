@@ -18,7 +18,10 @@ function CartsPage() {
   async function getCarts(props?: Partial<IPaging>) {
     const newCarts = await repoCartGetAll(props)
       .then(async (res) => (await res.json()) as ICardList)
-      .catch((err) => console.error("Error when fetching data: ", err))
+      .catch((err) => {
+        console.error("Error when fetching data: ", err)
+        return null
+      })
     if (!newCarts) return
     setCarts(newCarts)
   }
