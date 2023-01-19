@@ -6,6 +6,7 @@ import { repoCartGetOne } from "core/repos/cart"
 import { repoProductGetOne } from "core/repos/product"
 import { repoUserGetOne } from "core/repos/user"
 import { useEffect, useState } from "react"
+import Alert from "ui/components/common/Alert"
 import Pagination from "ui/components/common/Pagination"
 import Table from "ui/components/common/Table"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
@@ -68,9 +69,9 @@ function CartsDetailsPage({
       <div className="flex flex-col gap-i">
         <section className="flex flex-col gap-i">
           <header className="text-lg sm:text-xl font-bold">Details</header>
-          <article
+          <Alert
             className="border-1 sm:border-2 border-primary-focus bg-primary/50 grid grid-cols-1 sm:grid-cols-2 p-2 sm:p-4 
-          gap-2 sm:gap-4"
+          gap-2 sm:gap-4 font-normal"
           >
             <p>
               <span>User:</span>{" "}
@@ -92,7 +93,7 @@ function CartsDetailsPage({
                 {cart?.discountedTotal}
               </span>
             </p>
-          </article>
+          </Alert>
         </section>
         <section className="flex flex-col gap-i">
           <article className="overflow-x-auto">
@@ -130,7 +131,7 @@ function CartsDetailsPage({
           </article>
           {!!products?.length && (
             <footer className="self-end">
-              <Pagination total={100} skip={10} limit={10}></Pagination>
+              <Pagination total={products.length} skip={0} limit={products.length}></Pagination>
             </footer>
           )}
         </section>
