@@ -52,7 +52,7 @@ function ProductsPage() {
               <TextInput
                 className=" valid:outline-primary transition-all duration-300"
                 placeholder="Search Product..."
-                defaultValue={localStorage.getItem("PRODUCT_SEARCH") || ""}
+                defaultValue={products?.q || ""}
                 type="search"
                 name="q"
                 minLength={2}
