@@ -205,7 +205,7 @@ function useProductsPageHook() {
       localStorage.getItem("PRODUCT_CATEGORY") || ""
     )
     getCategories()
-    setCategories(localStorage.getItem("PRODUCT_CATEGORY") || "")
+    setCategory(localStorage.getItem("PRODUCT_CATEGORY") || "")
     return () => {}
   }, [])
 
