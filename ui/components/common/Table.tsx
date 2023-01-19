@@ -8,7 +8,7 @@ const Table = ({
   headers: string[]
 }&React.HtmlHTMLAttributes<HTMLTableElement>) => {
   return (
-    <table className={`table table-zebra w-full ${className}`}>
+    <table className={`table max-sm:table-compact table-zebra w-full ${className}`}>
       <thead>
         <tr>
           {headers.map((e, idx) => {
