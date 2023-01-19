@@ -1,16 +1,16 @@
 "use client"
-import { IProduct, IPaging, ISearch } from "core/models/product"
+import { IProduct } from "core/models/product"
 import { repoProductGet } from "core/repos/product"
+import { IPaging, ISearch } from "core/types/main"
 import React, { useEffect, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
-export type IProductList = { products: IProduct[] } & IPaging
+export type IProductList = { products: IProduct[] } & IPaging&ISearch
 
 function ProductsPage() {
   const [products, setProducts] = useState<IProductList>()
-  const [search, setSearch] = useState("")
 
   async function getProducts(props?: Partial<IPaging & ISearch>) {
     // if
@@ -110,7 +110,7 @@ function ProductsPage() {
                 limit={products.limit}
                 onPrev={() =>
                   getProducts({
-                    q: search,
+                    q: products.q,
                     limit: products.limit,
                     skip: products.skip - products.limit,
                     total: products.total,
@@ -118,7 +118,7 @@ function ProductsPage() {
                 }
                 onNext={() =>
                   getProducts({
-                    q: search,
+                    q: products.q,
                     limit: products.limit,
                     skip: products.skip + products.limit,
                     total: products.total,
