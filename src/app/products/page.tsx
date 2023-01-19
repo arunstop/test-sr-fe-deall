@@ -129,9 +129,7 @@ const initPagination: Partial<IProductsPagination> = {
 function useProductsPageHook() {
   const [products, setProducts] = useState<IProductList>()
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [category, setCategory] = useState(
-    localStorage.getItem("PRODUCT_CATEGORY") || ""
-  )
+  const [category, setCategory] = useState("")
 
   const productsPagination: IProductsPagination = useMemo(
     () => ({
@@ -207,6 +205,7 @@ function useProductsPageHook() {
       localStorage.getItem("PRODUCT_CATEGORY") || ""
     )
     getCategories()
+    setCategories(localStorage.getItem("PRODUCT_CATEGORY") || "")
     return () => {}
   }, [])
 
