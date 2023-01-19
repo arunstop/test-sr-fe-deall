@@ -30,6 +30,7 @@ function HeaderMain() {
         id="modal-mobile-nav"
         className="modal-toggle"
         checked={open}
+        onChange={(ev) => {}}
       />
       <div className="modal modal-bottom sm:modal-middle ">
         <div
@@ -37,7 +38,9 @@ function HeaderMain() {
           !gap-2 sm:!gap-4 transition-all"
         >
           <div className="flex justify-center gap-2 sm:gap-4 items-center">
-            <Alert className="!justify-center max-sm:p-2 rounded-lg">Menu</Alert>
+            <Alert className="!justify-center max-sm:p-2 rounded-lg">
+              Menu
+            </Alert>
           </div>
           <Link href="/products" className="bg-base-200 rounded-lg">
             <MenuItem
