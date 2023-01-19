@@ -52,6 +52,7 @@ function ProductsPage() {
               <TextInput
                 className=" valid:outline-primary transition-all duration-300"
                 placeholder="Search Product..."
+                defaultValue={localStorage.getItem("PRODUCT_SEARCH") || ""}
                 type="search"
                 name="q"
                 minLength={2}
@@ -128,7 +129,9 @@ const initPagination: Partial<IProductsPagination> = {
 function useProductsPageHook() {
   const [products, setProducts] = useState<IProductList>()
   const [categories, setCategories] = useState<ICategory[]>([])
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState(
+    localStorage.getItem("PRODUCT_CATEGORY") || ""
+  )
 
   const productsPagination: IProductsPagination = useMemo(
     () => ({
@@ -168,10 +171,15 @@ function useProductsPageHook() {
 
   const handleSearch = React.useCallback(
     (q: string) => {
-      getProducts({
-        ...productsPagination,
-        q: q,
-      })
+      localStorage.setItem("PRODUCT_SEARCH", q)
+      getProducts(
+        !q
+          ? initPagination
+          : {
+              ...productsPagination,
+              q: q,
+            }
+      )
     },
     [productsPagination]
   )
@@ -182,6 +190,7 @@ function useProductsPageHook() {
     }: { category: string } & IProductsPagination) => {
       if (newCategory === category) return
       setCategory(newCategory)
+      localStorage.setItem("PRODUCT_CATEGORY", newCategory)
       getProducts(
         newCategory === "" ? initPagination : { ...filter },
         newCategory
@@ -192,7 +201,11 @@ function useProductsPageHook() {
 
   // init
   useEffect(() => {
-    getProducts(initPagination)
+    const savedSearch = localStorage.getItem("PRODUCT_SEARCH") || ""
+    getProducts(
+      { ...initPagination, q: savedSearch },
+      localStorage.getItem("PRODUCT_CATEGORY") || ""
+    )
     getCategories()
     return () => {}
   }, [])
