@@ -20,8 +20,8 @@ export function repoCartGetAll(props?: Partial<IPaging & ISearch>) {
 }
 
 export function repoCartGetOne(id: string) {
-  if (!id.trim().length)
-    return fetch(`https://dummyjson.com/carts/${id}`, {
-      method: "GET",
-    })
+  if (!id.trim().length) return
+  return fetch(`https://dummyjson.com/carts/${id}`, {
+    method: "GET",
+  })
 }
