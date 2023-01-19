@@ -124,6 +124,12 @@ function ProductsPage() {
   )
 }
 
+const initPagination : Partial<IProductsPagination>={
+  q: "",
+  limit: 10,
+  skip: 0,
+}
+
 function useProductsPageHook() {
   const [products, setProducts] = useState<IProductList>()
   const [categories, setCategories] = useState<ICategory[]>([])
@@ -181,18 +187,14 @@ function useProductsPageHook() {
     }: { category: string } & IProductsPagination) => {
       if (newCategory === category) return
       setCategory(newCategory)
-      getProducts(newCategory === "" ? undefined : { ...filter }, newCategory)
+      getProducts(newCategory === "" ? initPagination : { ...filter }, newCategory)
     },
     [category]
   )
 
   // init
   useEffect(() => {
-    getProducts({
-      q: "",
-      limit: 10,
-      skip: 0,
-    })
+    getProducts(initPagination)
     getCategories()
     return () => {}
   }, [])
