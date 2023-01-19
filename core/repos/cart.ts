@@ -1,8 +1,8 @@
 import { IPaging, ISearch } from "core/types/main"
 
-export function repoProductGet(props?: Partial<IPaging & ISearch>) {
+export function repoCartGetAll(props?: Partial<IPaging & ISearch>) {
   if (!props)
-    return fetch("https://dummyjson.com/products", {
+    return fetch("https://dummyjson.com/carts", {
       method: "GET",
     })
 
@@ -14,13 +14,14 @@ export function repoProductGet(props?: Partial<IPaging & ISearch>) {
     return `${oldVal}${idx > 0 ? "&" : ""}${currVal[0]}=${currVal[1]}`
   }, "?")
 
-  return fetch("https://dummyjson.com/products/search" + params, {
+  return fetch("https://dummyjson.com/carts" + params, {
     method: "GET",
   })
 }
 
-export async function repoProductGetOne(productId: number) {
-  return fetch(`https://dummyjson.com/products/${productId}`, {
-    method: "GET",
-  })
+export function repoCartGetOne(id: string) {
+  if (!id.trim().length)
+    return fetch(`https://dummyjson.com/carts/${id}`, {
+      method: "GET",
+    })
 }
