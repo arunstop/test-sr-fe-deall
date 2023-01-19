@@ -1,6 +1,8 @@
+import { Icon } from "@iconify-icon/react"
 import { ICategory } from "core/models/category"
 import { repoCategoryGetAll } from "core/repos/category"
 import React, { useEffect, useState } from "react"
+import Button from "../common/Button"
 import SelectInput from "../common/SelectInput"
 
 export interface IProductFilterSectionProps {
@@ -15,14 +17,17 @@ export interface IProductFilterSectionProps {
 }
 function ProductFilterSection({
   category,
-  className="",
+  className = "",
   ...props
 }: //   brands,
 //   priceRange,
 //   product,
-IProductFilterSectionProps&React.HTMLAttributes<HTMLElement>) {
+IProductFilterSectionProps & React.HTMLAttributes<HTMLElement>) {
   return (
-    <section className={`flex gap-2 sm:gap-4 w-full ${className}`} {...props}>
+    <section
+      className={`flex gap-2 sm:gap-4 w-full ${className} items-center`}
+      {...props}
+    >
       <SelectInput
         className="valid:outline-primary transition-all duration-300 capitalize invalid:text-gray-400 
             [&>option:not(:first-child)]:text-black"
@@ -39,6 +44,12 @@ IProductFilterSectionProps&React.HTMLAttributes<HTMLElement>) {
           </option>
         ))}
       </SelectInput>
+      {!!category.value && (
+        <Button className="btn-outline" onClick={() => category.set("")}>
+          <Icon icon="mdi:close-thick" className="text-lg sm:text-xl" />
+          <span>Clear Filter</span>
+        </Button>
+      )}
     </section>
   )
 }

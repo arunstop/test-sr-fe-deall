@@ -6,7 +6,6 @@ import { repoProductGetAll } from "core/repos/product"
 import { IPaging, ISearch } from "core/types/main"
 import React, { useEffect, useMemo, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
-import SelectInput from "ui/components/common/SelectInput"
 import TextInput from "ui/components/common/TextInput"
 import ProductFilterSection from "ui/components/product/ProductFilterSection"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
@@ -30,15 +29,16 @@ function ProductsPage() {
     <DashboardContentLayout title="Products">
       <div className="flex flex-col gap-i">
         <div className="flex max-sm:flex-col-reverse gap-i sm:justify-between max-sm:items-end">
-            <ProductFilterSection
+          <ProductFilterSection
             className="max-sm:justify-end"
-              category={{
-                value: category,
-                list: categories,
-                set: (newVal) =>
-                  handleFilter({ category: newVal, ...productsPagination }),
-              }}
-            />
+            category={{
+              value: category,
+              list: categories,
+              set: (newVal) =>
+                handleFilter({ category: newVal, ...productsPagination }),
+            }}
+          />
+
           <section className="flex gap-2 sm:gap-4 ">
             <form
               onSubmit={(ev) => {
@@ -181,7 +181,7 @@ function useProductsPageHook() {
     }: { category: string } & IProductsPagination) => {
       if (newCategory === category) return
       setCategory(newCategory)
-      getProducts({ ...filter }, newCategory)
+      getProducts(newCategory === "" ? undefined : { ...filter }, newCategory)
     },
     [category]
   )
