@@ -7,6 +7,7 @@ import Link from "next/link"
 import { useEffect, useState } from "react"
 import Button from "ui/components/common/Button"
 import Pagination from "ui/components/common/Pagination"
+import Table from "ui/components/common/Table"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
@@ -44,61 +45,58 @@ function CartsPage() {
         </section>
         <section className="flex flex-col gap-i">
           <article className="overflow-x-auto">
-            <table className="table table-zebra w-full ">
-              <thead>
-                <tr>
-                  <th className="!z-0">#</th>
-                  <th>User</th>
-                  <th>Total Product</th>
-                  <th>Total Qty</th>
-                  <th>Total/Discount</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {carts?.carts.map((e, idx) => (
-                  <tr
-                    key={e.id}
-                    className="group hover:z-20 hover:relative hover:-translate-y-2 cursor-pointer
+            <Table
+              headers={[
+                "#",
+                "User",
+                "Total Product",
+                "Total Qty",
+                "Total/Discount",
+                "",
+              ]}
+            >
+              {carts?.carts.map((e, idx) => (
+                <tr
+                  key={e.id}
+                  className="group hover:z-20 hover:relative hover:-translate-y-2
                   [&>*]:transition-all transition-all ease-in-out duration-300
                   "
-                  >
-                    <th className="group-hover:text-primary group-hover:bg-primary/30">
-                      {idx + 1}
-                    </th>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.userId}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.totalProducts}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.totalQuantity}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      <div className="flex gap-1 sm:gap-2 items-center h-full">
-                        <span className="">{e.total}</span>
-                        <Icon icon="mdi:arrow-right-thin" />
-                        <span className="text-red-500 font-bold">
-                          {e.discountedTotal}
-                        </span>
-                      </div>
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      <Link href={`/carts/${e.id}`}>
-                        <Button>
-                          <Icon
-                            icon="mdi:dots-vertical-circle-outline"
-                            className="text-lg sm:text-xl"
-                          />
-                          <span>Detail</span>
-                        </Button>
-                      </Link>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                >
+                  <th className="group-hover:text-primary group-hover:bg-primary/30">
+                    {idx + 1}
+                  </th>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.userId}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.totalProducts}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.totalQuantity}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    <div className="flex gap-1 sm:gap-2 items-center h-full">
+                      <span className="">{e.total}</span>
+                      <Icon icon="mdi:arrow-right-thin" />
+                      <span className="text-red-500 font-bold">
+                        {e.discountedTotal}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    <Link href={`/carts/${e.id}`}>
+                      <Button>
+                        <Icon
+                          icon="mdi:dots-vertical-circle-outline"
+                          className="text-lg sm:text-xl"
+                        />
+                        <span>Detail</span>
+                      </Button>
+                    </Link>
+                  </td>
+                </tr>
+              ))}
+            </Table>
           </article>
           {!!carts && (
             <footer className="self-end">

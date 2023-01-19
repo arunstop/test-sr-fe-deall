@@ -6,6 +6,7 @@ import { repoProductGetAll } from "core/repos/product"
 import { IPaging, ISearch } from "core/types/main"
 import React, { useEffect, useMemo, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
+import Table from "ui/components/common/Table"
 import TextInput from "ui/components/common/TextInput"
 import ProductFilterSection from "ui/components/product/ProductFilterSection"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
@@ -58,45 +59,32 @@ function ProductsPage() {
           </section>
         </div>
         <section className="flex flex-col gap-i">
-          <article className="overflow-x-auto">
-            <table className="table table-zebra w-full ">
-              <thead>
-                <tr>
-                  <th className="!z-0">#</th>
-                  <th>Name</th>
-                  <th>Brand</th>
-                  <th>Price</th>
-                  <th>Stock</th>
-                </tr>
-              </thead>
-              <tbody className="">
-                {products?.products.map((e, idx) => (
-                  <tr
-                    key={e.id}
-                    className="group hover:z-20 hover:relative hover:-translate-y-2 cursor-pointer
+          <Table headers={["#", "Name", "Brand", "Price", "Stock"]}>
+            {products?.products.map((e, idx) => (
+              <tr
+                key={e.id}
+                className="group hover:z-20 hover:relative hover:-translate-y-2
                 [&>*]:transition-all transition-all ease-in-out duration-300
                 "
-                  >
-                    <th className="group-hover:text-primary group-hover:bg-primary/30">
-                      {idx + 1}
-                    </th>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.title}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.brand}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.price}
-                    </td>
-                    <td className="group-hover:text-primary group-hover:bg-primary/30">
-                      {e.stock}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </article>
+              >
+                <th className="group-hover:text-primary group-hover:bg-primary/30">
+                  {idx + 1}
+                </th>
+                <td className="group-hover:text-primary group-hover:bg-primary/30">
+                  {e.title}
+                </td>
+                <td className="group-hover:text-primary group-hover:bg-primary/30">
+                  {e.brand}
+                </td>
+                <td className="group-hover:text-primary group-hover:bg-primary/30">
+                  {e.price}
+                </td>
+                <td className="group-hover:text-primary group-hover:bg-primary/30">
+                  {e.stock}
+                </td>
+              </tr>
+            ))}
+          </Table>
           {!!products && (
             <footer className="self-end">
               <Pagination
@@ -124,7 +112,7 @@ function ProductsPage() {
   )
 }
 
-const initPagination : Partial<IProductsPagination>={
+const initPagination: Partial<IProductsPagination> = {
   q: "",
   limit: 10,
   skip: 0,
@@ -187,7 +175,10 @@ function useProductsPageHook() {
     }: { category: string } & IProductsPagination) => {
       if (newCategory === category) return
       setCategory(newCategory)
-      getProducts(newCategory === "" ? initPagination : { ...filter }, newCategory)
+      getProducts(
+        newCategory === "" ? initPagination : { ...filter },
+        newCategory
+      )
     },
     [category]
   )
