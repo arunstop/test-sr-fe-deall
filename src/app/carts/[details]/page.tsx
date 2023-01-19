@@ -52,10 +52,6 @@ function CartsDetailsPage({
     }
   }
 
-  
-
-  
-
   useEffect(() => {
     getCartDetails()
     return () => {}
