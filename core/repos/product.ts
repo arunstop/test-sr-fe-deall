@@ -1,4 +1,4 @@
-import { IPaging, ISearch } from "core/models/product"
+import { IPaging, ISearch } from "core/types/main"
 
 export function repoProductGet(props?: Partial<IPaging & ISearch>) {
   if (!props)
