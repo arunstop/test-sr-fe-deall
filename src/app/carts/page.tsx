@@ -5,6 +5,7 @@ import { repoCartGetAll } from "core/repos/cart"
 import { IPaging, ISearch } from "core/types/main"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import Alert from "ui/components/common/Alert"
 import Button from "ui/components/common/Button"
 import Pagination from "ui/components/common/Pagination"
 import Table from "ui/components/common/Table"
@@ -43,85 +44,89 @@ function CartsPage() {
             minLength={2}
           />
         </section>
-        <section className="flex flex-col gap-i">
-          <article className="overflow-x-auto">
-            <Table
-              headers={[
-                "#",
-                "User",
-                "Total Product",
-                "Total Qty",
-                "Total/Discount",
-                "",
-              ]}
-            >
-              {carts?.carts.map((e, idx) => (
-                <tr
-                  key={e.id}
-                  className="group hover:z-20 hover:relative hover:-translate-y-2
+        {carts?.total ? (
+          <section className="flex flex-col gap-i">
+            <article className="overflow-x-auto">
+              <Table
+                headers={[
+                  "#",
+                  "User",
+                  "Total Product",
+                  "Total Qty",
+                  "Total/Discount",
+                  "",
+                ]}
+              >
+                {carts?.carts.map((e, idx) => (
+                  <tr
+                    key={e.id}
+                    className="group hover:z-20 hover:relative hover:-translate-y-2
                   [&>*]:transition-all transition-all ease-in-out duration-300
                   "
-                >
-                  <th className="group-hover:text-primary group-hover:bg-primary/30">
-                    {idx + 1}
-                  </th>
-                  <td className="group-hover:text-primary group-hover:bg-primary/30">
-                    {e.userId}
-                  </td>
-                  <td className="group-hover:text-primary group-hover:bg-primary/30">
-                    {e.totalProducts}
-                  </td>
-                  <td className="group-hover:text-primary group-hover:bg-primary/30">
-                    {e.totalQuantity}
-                  </td>
-                  <td className="group-hover:text-primary group-hover:bg-primary/30">
-                    <div className="flex gap-1 sm:gap-2 items-center h-full">
-                      <span className="">{e.total}</span>
-                      <Icon icon="mdi:arrow-right-thin" />
-                      <span className="text-red-500 font-bold">
-                        {e.discountedTotal}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="group-hover:text-primary group-hover:bg-primary/30">
-                    <Link href={`/carts/${e.id}`}>
-                      <Button>
-                        <Icon
-                          icon="mdi:dots-vertical-circle-outline"
-                          className="text-lg sm:text-xl"
-                        />
-                        <span>Detail</span>
-                      </Button>
-                    </Link>
-                  </td>
-                </tr>
-              ))}
-            </Table>
-          </article>
-          {!!carts?.carts.length && (
-            <footer className="self-end">
-              <Pagination
-                total={carts.total}
-                skip={carts.skip}
-                limit={carts.limit}
-                onPrev={() =>
-                  getCarts({
-                    limit: carts.limit,
-                    skip: carts.skip - carts.limit,
-                    total: carts.total,
-                  })
-                }
-                onNext={() =>
-                  getCarts({
-                    limit: carts.limit,
-                    skip: carts.skip + carts.limit,
-                    total: carts.total,
-                  })
-                }
-              ></Pagination>
-            </footer>
-          )}
-        </section>
+                  >
+                    <th className="group-hover:text-primary group-hover:bg-primary/30">
+                      {idx + 1}
+                    </th>
+                    <td className="group-hover:text-primary group-hover:bg-primary/30">
+                      {e.userId}
+                    </td>
+                    <td className="group-hover:text-primary group-hover:bg-primary/30">
+                      {e.totalProducts}
+                    </td>
+                    <td className="group-hover:text-primary group-hover:bg-primary/30">
+                      {e.totalQuantity}
+                    </td>
+                    <td className="group-hover:text-primary group-hover:bg-primary/30">
+                      <div className="flex gap-1 sm:gap-2 items-center h-full">
+                        <span className="">{e.total}</span>
+                        <Icon icon="mdi:arrow-right-thin" />
+                        <span className="text-red-500 font-bold">
+                          {e.discountedTotal}
+                        </span>
+                      </div>
+                    </td>
+                    <td className="group-hover:text-primary group-hover:bg-primary/30">
+                      <Link href={`/carts/${e.id}`}>
+                        <Button>
+                          <Icon
+                            icon="mdi:dots-vertical-circle-outline"
+                            className="text-lg sm:text-xl"
+                          />
+                          <span>Detail</span>
+                        </Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </Table>
+            </article>
+            {!!carts?.carts.length && (
+              <footer className="self-end">
+                <Pagination
+                  total={carts.total}
+                  skip={carts.skip}
+                  limit={carts.limit}
+                  onPrev={() =>
+                    getCarts({
+                      limit: carts.limit,
+                      skip: carts.skip - carts.limit,
+                      total: carts.total,
+                    })
+                  }
+                  onNext={() =>
+                    getCarts({
+                      limit: carts.limit,
+                      skip: carts.skip + carts.limit,
+                      total: carts.total,
+                    })
+                  }
+                ></Pagination>
+              </footer>
+            )}
+          </section>
+        ) : (
+          <Alert className="text-center">No data</Alert>
+        )}
       </div>
     </DashboardContentLayout>
   )
