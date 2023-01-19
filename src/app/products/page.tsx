@@ -59,32 +59,34 @@ function ProductsPage() {
           </section>
         </div>
         <section className="flex flex-col gap-i">
-          <Table headers={["#", "Name", "Brand", "Price", "Stock"]}>
-            {products?.products.map((e, idx) => (
-              <tr
-                key={e.id}
-                className="group hover:z-20 hover:relative hover:-translate-y-2
+          <article className="overflow-x-auto">
+            <Table headers={["#", "Name", "Brand", "Price", "Stock"]}>
+              {products?.products.map((e, idx) => (
+                <tr
+                  key={e.id}
+                  className="group hover:z-20 hover:relative hover:-translate-y-2
                 [&>*]:transition-all transition-all ease-in-out duration-300
                 "
-              >
-                <th className="group-hover:text-primary group-hover:bg-primary/30">
-                  {idx + 1}
-                </th>
-                <td className="group-hover:text-primary group-hover:bg-primary/30">
-                  {e.title}
-                </td>
-                <td className="group-hover:text-primary group-hover:bg-primary/30">
-                  {e.brand}
-                </td>
-                <td className="group-hover:text-primary group-hover:bg-primary/30">
-                  {e.price}
-                </td>
-                <td className="group-hover:text-primary group-hover:bg-primary/30">
-                  {e.stock}
-                </td>
-              </tr>
-            ))}
-          </Table>
+                >
+                  <th className="group-hover:text-primary group-hover:bg-primary/30">
+                    {idx + 1}
+                  </th>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.title}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.brand}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.price}
+                  </td>
+                  <td className="group-hover:text-primary group-hover:bg-primary/30">
+                    {e.stock}
+                  </td>
+                </tr>
+              ))}
+            </Table>
+          </article>
           {!!products && (
             <footer className="self-end">
               <Pagination
