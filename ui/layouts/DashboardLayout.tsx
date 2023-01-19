@@ -5,18 +5,13 @@ import SidebarMain from "ui/components/main/SidebarMain"
 function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <main className="min-h-screen flex max-lg:flex-col relative ">
-      <NavSection />
-      {children}
-    </main>
-  )
-}
-
-function NavSection() {
-  return (
-    <>
       <SidebarMain />
-      <HeaderMain />
-    </>
+      <section className="max-h-screen overflow-auto w-full">
+        <HeaderMain />
+
+        {children}
+      </section>
+    </main>
   )
 }
 
