@@ -1,12 +1,13 @@
 "use client"
-import { IProduct, IPaging, ISearch } from "core/models/product"
+import { IProduct } from "core/models/product"
 import { repoProductGet } from "core/repos/product"
+import { IPaging, ISearch } from "core/types/main"
 import React, { useEffect, useState } from "react"
 import Pagination from "ui/components/common/Pagination"
 import TextInput from "ui/components/common/TextInput"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
-export type IProductList = { products: IProduct[] } & IPaging
+export type IProductList = { products: IProduct[] } & IPaging&ISearch
 
 function ProductsPage() {
   const [products, setProducts] = useState<IProductList>()
@@ -101,9 +102,31 @@ function ProductsPage() {
               </tbody>
             </table>
           </article>
-          <footer className="self-end">
-            <Pagination limit={100} skip={10} per={10}></Pagination>
-          </footer>
+          {!!products && (
+            <footer className="self-end">
+              <Pagination
+                total={products.total}
+                skip={products.skip}
+                limit={products.limit}
+                onPrev={() =>
+                  getProducts({
+                    q: products.q,
+                    limit: products.limit,
+                    skip: products.skip - products.limit,
+                    total: products.total,
+                  })
+                }
+                onNext={() =>
+                  getProducts({
+                    q: products.q,
+                    limit: products.limit,
+                    skip: products.skip + products.limit,
+                    total: products.total,
+                  })
+                }
+              ></Pagination>
+            </footer>
+          )}
         </section>
       </div>
     </DashboardContentLayout>
