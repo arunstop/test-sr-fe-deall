@@ -7,7 +7,8 @@ import MenuItem from "../common/MenuItem"
 function SidebarMain() {
   const path = usePathname() || ""
   return (
-    <nav className="p-2 sm:p-4 w-80 bg-base-200  flex-col hidden lg:flex">
+    <nav className="p-2 sm:p-4 w-80 bg-base-200  flex-col hidden lg:flex
+    ">
       <Link href="/products" >
         <MenuItem active={path.includes("/products") == true}>
         <Icon icon="mdi:package-variant-closed"  className="text-xl sm:tex-2xl"/>
