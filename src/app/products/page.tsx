@@ -9,6 +9,7 @@ import Alert from "ui/components/common/Alert"
 import Pagination from "ui/components/common/Pagination"
 import Table from "ui/components/common/Table"
 import TextInput from "ui/components/common/TextInput"
+import ProductChart from "ui/components/product/ProductChart"
 import ProductFilterSection from "ui/components/product/ProductFilterSection"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
@@ -115,6 +116,7 @@ function ProductsPage() {
         ) : (
           <Alert className="text-center">No data</Alert>
         )}
+        {products && <ProductChart products={products} />}
       </div>
     </DashboardContentLayout>
   )
