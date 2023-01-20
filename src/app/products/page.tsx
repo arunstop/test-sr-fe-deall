@@ -9,13 +9,18 @@ import Alert from "ui/components/common/Alert"
 import Pagination from "ui/components/common/Pagination"
 import Table from "ui/components/common/Table"
 import TextInput from "ui/components/common/TextInput"
+import ProductChart from "ui/components/product/ProductChart"
 import ProductFilterSection from "ui/components/product/ProductFilterSection"
 import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 
 type IProductsPagination = IPaging & ISearch
 
 export type IProductList = { products: IProduct[] } & IProductsPagination
-
+const initPagination: Partial<IProductsPagination> = {
+  q: "",
+  limit: 10,
+  skip: 0,
+}
 function ProductsPage() {
   const {
     products,
@@ -37,7 +42,7 @@ function ProductsPage() {
               value: category,
               list: categories,
               set: (newVal) =>
-                handleFilter({ category: newVal, ...productsPagination }),
+                handleFilter({ category: newVal, ...initPagination }),
             }}
           />
 
@@ -115,16 +120,13 @@ function ProductsPage() {
         ) : (
           <Alert className="text-center">No data</Alert>
         )}
+        {products && <ProductChart  products={products} />}
       </div>
     </DashboardContentLayout>
   )
 }
 
-const initPagination: Partial<IProductsPagination> = {
-  q: "",
-  limit: 10,
-  skip: 0,
-}
+
 
 function useProductsPageHook() {
   const [products, setProducts] = useState<IProductList>()
@@ -185,7 +187,7 @@ function useProductsPageHook() {
     ({
       category: newCategory,
       ...filter
-    }: { category: string } & IProductsPagination) => {
+    }: { category: string } & Partial<IProductsPagination>) => {
       if (newCategory === category) return
       setCategory(newCategory)
       localStorage.setItem("PRODUCT_CATEGORY", newCategory)
