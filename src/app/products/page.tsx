@@ -16,7 +16,11 @@ import DashboardContentLayout from "ui/layouts/DashboardContentLayout"
 type IProductsPagination = IPaging & ISearch
 
 export type IProductList = { products: IProduct[] } & IProductsPagination
-
+const initPagination: Partial<IProductsPagination> = {
+  q: "",
+  limit: 10,
+  skip: 0,
+}
 function ProductsPage() {
   const {
     products,
@@ -38,7 +42,7 @@ function ProductsPage() {
               value: category,
               list: categories,
               set: (newVal) =>
-                handleFilter({ category: newVal, ...productsPagination }),
+                handleFilter({ category: newVal, ...initPagination }),
             }}
           />
 
@@ -116,17 +120,13 @@ function ProductsPage() {
         ) : (
           <Alert className="text-center">No data</Alert>
         )}
-        {products && <ProductChart products={products} />}
+        {products && <ProductChart  products={products} />}
       </div>
     </DashboardContentLayout>
   )
 }
 
-const initPagination: Partial<IProductsPagination> = {
-  q: "",
-  limit: 10,
-  skip: 0,
-}
+
 
 function useProductsPageHook() {
   const [products, setProducts] = useState<IProductList>()
@@ -187,7 +187,7 @@ function useProductsPageHook() {
     ({
       category: newCategory,
       ...filter
-    }: { category: string } & IProductsPagination) => {
+    }: { category: string } & Partial<IProductsPagination>) => {
       if (newCategory === category) return
       setCategory(newCategory)
       localStorage.setItem("PRODUCT_CATEGORY", newCategory)

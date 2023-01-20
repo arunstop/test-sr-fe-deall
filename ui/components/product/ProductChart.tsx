@@ -59,7 +59,7 @@ function ProductChart({ products }: { products: IProductList }) {
     // setData(new Map())
     getBrands(products)
     return () => {}
-  }, [products.skip])
+  }, [products.products[0].id])
 
   return (
     <section className="">
